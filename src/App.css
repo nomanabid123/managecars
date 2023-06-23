@@ -36,3 +36,29 @@
   color: #000;
   margin-bottom: 30px;
 }
+
+.header{
+  color: yellow;
+  height: 64px;
+  padding: 50;
+  line-height: 64px;
+  background: black;
+}
+
+.side_bar{
+  color:yellow;
+  background: white !important;
+  width: 30%;
+  height: 800px;
+  float: left;
+  position: fixed;
+  border: 1px solid grey;
+
+}
+
+.content_area{
+  background-color: #fff;
+  width: 70%;
+  height: 800px;
+  float: right;
+}
