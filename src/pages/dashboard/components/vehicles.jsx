@@ -1,6 +1,33 @@
 import React from 'react'
-import {Card,Row,Col,Space} from 'antd'
+import {Table} from 'antd'
 const Vehicles = () => {
+
+
+    const columns = [
+        {
+            title:"Category",
+            dataIndex:"category",
+        },{
+            title:"Name",
+            dataIndex:"name",
+            sorter:(a,b)=>a.name.length - b.name.length,
+        },{
+
+            title:"Model",
+            dataIndex:"model",
+            sorter:(a,b)=>a.model - b.model,
+        },{
+            title:"Color",
+            dataIndex:"color",
+        },{
+            title:"Make",
+            dataIndex:"make",
+        }
+
+
+
+    ]
+
     const cars = [
         {
             id: 1,
@@ -40,16 +67,7 @@ const Vehicles = () => {
 
     ]
     return (
-        <Row gutter={[16,16]}>
-            {cars.map((car) => (
-                <Col span={4} key={car.id}>
-                    <Card title={car.name} bordered={false}>
-                        <p>{car.model}</p>
-                    </Card>
-                </Col>
-            ))}
-        </Row>
-
+       <Table dataSource={cars} columns={columns} />
      );
 }
  
