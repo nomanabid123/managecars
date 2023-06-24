@@ -1,13 +1,17 @@
 
-import React from 'react'
+import React,{useEffect} from 'react'
 import {Layout}  from 'antd'
 import SideBar from './components/sidebar';
 import Vehicles from './components/vehicles';
+import { getCategories } from '../../services/api';
 const {Header, Content, Footer,Sider} = Layout;
 
 
 const Dashboard = () => {
-
+  
+    useEffect(() => {
+      getCategories().then(res=>console.log(res))
+    }, [])
     return (
       <Layout>
         <Header className="header">
