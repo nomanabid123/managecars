@@ -65,8 +65,6 @@ const LogIn = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        
-
         <Form.Item
           label="Email"
           name="email"
@@ -79,17 +77,18 @@ const LogIn = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Password" name="password"
-            rules={[
-                {
-                    required: true,
-                    message: "Please input your password",
-                    },
-                ]}
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password",
+            },
+          ]}
         >
-            <Input.Password />
+          <Input.Password />
         </Form.Item>
-
 
         <Form.Item
           wrapperCol={{
@@ -99,6 +98,13 @@ const LogIn = () => {
         >
           <Button type="primary" htmlType="submit">
             Submit
+          </Button>
+          <Button type="link" htmlType="button" onClick={
+            ()=>{
+              navigate("/signup")
+            }
+          }>
+            Sign Up
           </Button>
         </Form.Item>
       </Form>

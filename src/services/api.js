@@ -26,7 +26,6 @@ authApi.interceptors.request.use(config => {
 
 const getCategories = async () => {
     const response = await authApi.get("/categories/get");
-    console.log(response);
     return response;
 }
 
@@ -50,7 +49,7 @@ const deleteCategory = async (id) => {
 }
 
 const getCars = async (category) => {
-    const response = await authApi.get("/cars/get", {category});
+    const response = await authApi.get("/cars/get", {params: {category}});
     return response;
 }
 

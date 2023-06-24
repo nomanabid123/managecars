@@ -1,8 +1,29 @@
 import React from 'react'
-import { Form,Button,Input } from 'antd';
+import axios from 'axios';
+import { Form,Button,Input,message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 const SignUp = () => {
+    const navigate = useNavigate();
+    const handleSignUp = async (name,email) => {
+      try{
+        const res = await axios.post("http://localhost:3000/user/signup", {
+          name,
+          email,
+        });
+        
+       if(res.status === 201){
+          message.success("User created successfully")
+       }
+
+      }catch(err){
+        console.log(err)
+      }
+
+
+    }
+
     const onFinish = (values) => {
-        console.log("Success:", values);
+        handleSignUp(values.name,values.email)
         };
 
     const onFinishFailed = (errorInfo) => {
@@ -12,8 +33,8 @@ const SignUp = () => {
 
 
     return (
-      <div className='form-box'>
-        <h1 className='form-header' >Sign Up</h1>
+      <div className="form-box">
+        <h1 className="form-header">Sign Up</h1>
         <Form
           className="login-form"
           name="basic"
@@ -58,7 +79,6 @@ const SignUp = () => {
           >
             <Input />
           </Form.Item>
-
           <Form.Item
             wrapperCol={{
               offset: 8,
@@ -67,6 +87,15 @@ const SignUp = () => {
           >
             <Button type="primary" htmlType="submit">
               Submit
+            </Button>
+            <Button
+              type="link"
+              htmlType="button"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Sign Up
             </Button>
           </Form.Item>
         </Form>

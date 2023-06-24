@@ -1,40 +1,48 @@
 import React,{useState} from 'react';
 import {Menu} from 'antd';
 
-const SideBar = () => {
-    const [current, setCurrent] = useState('Suv');
+const SideBar = ({currentCategory, setCurrentCategory }) => {
 
-    const items = [
-      {
-        label: "Cars",
-        key: "SubMenu",
-        children: [
-          {
-            label: "Bus",
-            key: "bus",
-          },
-          {
-            label: "Sedan",
-            key: "sedan",
-          },{
-            label: "SUV",
-            key: "suv",
-          },{
-            label: "Truck",
-            key: "truck",
-          }
-        ],
-      },
-    ];
+  const items = [
+    {
+      label: "Categories",
+      key: "SubMenu",
+      children: [
+        {
+          label: "Bus",
+          key: "BUS",
+        },
+        {
+          label: "Sedan",
+          key: "SEDAN",
+        },
+        {
+          label: "SUV",
+          key: "SUV",
+        },
+        {
+          label: "Truck",
+          key: "TRUCK",
+        },{
+          label: "Kia",
+          key: "KIA",
+        }
+      ],
+    },
+  ];
 
-    const handleClick = (e) => {
-        console.log('click ', e);
-        setCurrent(e.key);
-        };
+  const handleClick = (e) => {
+    setCurrentCategory(e.key);
+  };
 
-    return ( 
-        <Menu items={items} onClick={handleClick} selectedKeys={[current]} mode="horizontal"/>
-     );
-}
+  return (
+    <Menu
+      items={items}
+      onClick={handleClick}
+      selectedKeys={[currentCategory]}
+      mode="horizontal"
+    />
+  );
+};
  
 export default SideBar;

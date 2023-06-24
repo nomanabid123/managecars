@@ -1,6 +1,30 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import {Table} from 'antd'
-const Vehicles = () => {
+import {getCars} from "../../../services/api"
+const Vehicles = ({category=null}) => {
+    const [cars,setCars] = useState([])
+
+
+    const getCarsFromDb = async (category)=>{
+        try{
+            const res = await getCars(category)
+            const data = res.data
+            console.log(data.data)
+            setCars(data?.data)
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+
+        if(category){
+            getCarsFromDb(category)
+        }
+
+        
+
+    }, [category])
 
 
     const columns = [
@@ -28,44 +52,6 @@ const Vehicles = () => {
 
     ]
 
-    const cars = [
-        {
-            id: 1,
-            name: "Toyota",
-            model: "Corolla",
-        },{
-            id: 2,
-            name: "Honda",
-            model: "Civic",
-        },{
-            id: 3,
-            name: "Suzuki",
-            model: "Cultus",},
-        {
-            id: 4,
-            name: "Toyota",
-            model: "Corolla",
-        },{
-            id: 5,
-            name: "Honda",
-            model: "Civic",
-        },{
-            id: 6,
-            name: "Suzuki",
-            model: "Cultus",},
-        {
-            id: 7,
-            name: "Toyota",
-            model: "Corolla",
-        },{
-            id: 8,
-            name: "Honda",
-            model: "Civic",
-        }
-
-
-
-    ]
     return (
        <Table dataSource={cars} columns={columns} />
      );
