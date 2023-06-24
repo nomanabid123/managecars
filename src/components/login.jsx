@@ -1,8 +1,42 @@
 import React from "react";
 import { Form, Button, Input } from "antd";
+import { useDispatch } from "react-redux";
+import { login } from "../feature/authSlice";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const LogIn = () => {
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const handleLogIn = (email,password)=>{
+
+    try{
+      axios
+        .post("http://localhost:3000/user/login", {
+          email,
+          password,
+        })
+        .then((response) => {
+          dispatch(login(response.data))
+          navigate("/dashboard")
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+
+
+    }catch(error){
+      console.log(error)
+    }
+
+
+
+  }
+
   const onFinish = (values) => {
-    console.log("Success:", values);
+    handleLogIn(values.email,values.password)
   };
 
   const onFinishFailed = (errorInfo) => {
