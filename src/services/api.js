@@ -64,7 +64,7 @@ const updateCar = async (car) => {
 }
 
 const deleteCar = async (id) => {
-    const response = await authApi.delete("/cars/delete", {_id: id});
+    const response = await authApi.delete("/cars/delete",{params: {_id: id}});
     return response;
 }
 

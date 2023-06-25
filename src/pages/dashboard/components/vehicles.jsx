@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from 'react'
-import {Button, Table,Modal} from 'antd'
-import {getCars,getCategories} from "../../../services/api"
+import {Button, Table,Modal, message} from 'antd'
+import {getCars,getCategories,deleteCar} from "../../../services/api"
 import EditCar from './editCar'
 const Vehicles = ({category=null}) => {
     const [cars,setCars] = useState([])
@@ -14,6 +14,7 @@ const Vehicles = ({category=null}) => {
 
     const handleOk = () => {
         setIsModalVisible(false);
+        getCarsFromDb(category)
     };
     
     const handleCancel = () => {
@@ -41,6 +42,19 @@ const Vehicles = ({category=null}) => {
         }catch(err){
             console.log(err)
         }
+    }
+
+    const deleteCarFromDb = async (id)=>{
+        try{
+            const res = await deleteCar(id)
+            if(res.status === 200){
+                getCarsFromDb(category)
+                message.success("Car deleted successfully")
+            }
+        }catch(err){
+            console.log(err)
+        }
+
     }
 
     useEffect(() => {
@@ -85,8 +99,10 @@ const Vehicles = ({category=null}) => {
             )
         },{
             key:"action_delete",
-            render:()=>(
-                <Button type="danger">Delete</Button>
+            render:(_,data)=>(
+                <Button type="danger" onClick={()=>{
+                    deleteCarFromDb(data._id)
+                }}>Delete</Button>
             )
 
         }
