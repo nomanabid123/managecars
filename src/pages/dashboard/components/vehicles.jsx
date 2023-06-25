@@ -1,15 +1,42 @@
 import React,{useEffect,useState} from 'react'
-import {Table} from 'antd'
-import {getCars} from "../../../services/api"
+import {Button, Table,Modal} from 'antd'
+import {getCars,getCategories} from "../../../services/api"
+import EditCar from './editCar'
 const Vehicles = ({category=null}) => {
     const [cars,setCars] = useState([])
+    const [selectedCar,setSelectedCar] = useState(null)
+    const [categories,setCategories] = useState([])
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+
+
+
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+    
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const getCategoriesFromDb = async ()=>{
+        try{
+            const res = await getCategories()
+            const data = res.data
+            setCategories(data?.data)
+        }catch(err){
+            console.log(err)
+        }
+
+
+    }
 
 
     const getCarsFromDb = async (category)=>{
         try{
             const res = await getCars(category)
             const data = res.data
-            console.log(data.data)
             setCars(data?.data)
         }catch(err){
             console.log(err)
@@ -21,10 +48,12 @@ const Vehicles = ({category=null}) => {
         if(category){
             getCarsFromDb(category)
         }
-
-        
-
     }, [category])
+
+    useEffect(() => {
+        getCategoriesFromDb()
+    }, [])
+
 
 
     const columns = [
@@ -46,6 +75,20 @@ const Vehicles = ({category=null}) => {
         },{
             title:"Make",
             dataIndex:"make",
+        },{
+            key:"action_edit",
+            render:(_,data)=>(
+                <Button type="primary" onClick={()=>{
+                    setSelectedCar(data)
+                    setIsModalVisible(true)
+                }}>Edit</Button>
+            )
+        },{
+            key:"action_delete",
+            render:()=>(
+                <Button type="danger">Delete</Button>
+            )
+
         }
 
 
@@ -53,8 +96,27 @@ const Vehicles = ({category=null}) => {
     ]
 
     return (
-       <Table dataSource={cars} columns={columns} />
-     );
+      <>
+        <Button
+          type="primary"
+          onClick={() => {
+            setIsModalVisible(true);
+          }}
+        >
+          Add Car
+        </Button>
+        <Table dataSource={cars} columns={columns} />
+        <Modal
+          title="Manage Car"
+          open={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          footer={false}
+        >
+          <EditCar setSelectedCar={setSelectedCar} selectedCar={selectedCar} handleOk={handleOk} categories={categories} />
+        </Modal>
+      </>
+    );
 }
  
 export default Vehicles;
