@@ -29,8 +29,8 @@ const getCategories = async () => {
     return response;
 }
 
-const createCategory = async (name) => {
-    const response = await authApi.post("/categories/create", name);
+const createCategory = async (category) => {
+    const response = await authApi.post("/categories/create", category);
     return response;
 }
 
