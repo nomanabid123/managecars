@@ -15,7 +15,6 @@ const EditCar = ({ categories, handleOk, selectedCar, setSelectedCar }) => {
   };
 
   const updateExistingCar = async (values) => {
-    console.log(values);
     try {
       const res = await updateCar(values);
       if (res.status === 200) {
