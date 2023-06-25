@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, Menu, Popover, Input, message } from "antd";
+import { Button, Form, Menu, Popover, Input, message,Row,Col, Space } from "antd";
 import { getCategories, createCategory } from "../../../services/api";
 
 const SideBar = ({ currentCategory, setCurrentCategory }) => {
@@ -12,7 +12,6 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
 
   const createNewCategory = async (values) => {
     try {
-      console.log(values);
       const res = await createCategory(values);
       if (res.status === 200) {
         message.success("Category created successfully");
@@ -109,17 +108,46 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
 
   return (
     <>
-      <Popover
-        content={contents}
-        title="Title"
-        trigger="click"
-        open={open}
-        onOpenChange={handleOpenChange}
-      >
-        <Button className="category-btn" type="primary" style={{ marginBottom: 10 }}>
-          Add Category
-        </Button>
-      </Popover>
+      <Row>
+        <Space direction="horizontal">
+          <Col span={4}>
+            <Popover
+              content={contents}
+              title="Title"
+              trigger="click"
+              open={open}
+              onOpenChange={handleOpenChange}
+            >
+              <Button
+                className="category-btn"
+                type="primary"
+                style={{ marginBottom: 10 }}
+              >
+                Add
+              </Button>
+            </Popover>
+          </Col>
+          <Col span={4}>
+            <Button
+              className="category-btn"
+              type="primary"
+              style={{ marginBottom: 10 }}
+            >
+              Delete
+            </Button>
+          </Col>
+          <Col span={4}>
+            <Button
+              className="category-btn"
+              type="primary"
+              style={{ marginBottom: 10 }}
+            >
+              Edit
+            </Button>
+          </Col>
+        </Space>
+      </Row>
+
       <Menu
         items={categories}
         onClick={handleClick}
