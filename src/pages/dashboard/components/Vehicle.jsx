@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table, Modal, message } from "antd";
 import { getCars, deleteCar } from "../../../services/api";
-import EditCar from "./editCar";
+import EditCar from "./EditCar";
 import { PlusOutlined } from "@ant-design/icons";
 const Vehicles = ({ category = null }) => {
   const [cars, setCars] = useState([]);

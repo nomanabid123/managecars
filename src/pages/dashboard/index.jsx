@@ -3,8 +3,8 @@ import { Button, Layout } from "antd";
 import { useDispatch } from "react-redux";
 import { logout } from "../../feature/authSlice"
 import { useNavigate } from "react-router-dom";
-import SideBar from "./components/sidebar";
-import Vehicles from "./components/vehicles";
+import SideBar from "./components/SideBar";
+import Vehicles from "./components/Vehicle";
 const { Header, Content, Sider } = Layout;
 
 const Dashboard = () => {

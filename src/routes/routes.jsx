@@ -1,11 +1,11 @@
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Spin } from "antd";
-import LoggedIn from "./loggedIn";
+import LoggedIn from "./LoggedIn";
 import LogIn from "../components/LogIn";
 import SignUp from "../components/SignUp";
-import Dashboard from "../pages/dashboard";
-import PrivateRoute from "./privateRoute";
+import Dashboard from "../pages/dashboard/Index";
+import PrivateRoute from "./PrivateRoute";
 
 //handle all the routes
 const RouteConfig = () => {
