@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Input } from "antd";
+import { Form, Button, Input, message } from "antd";
 import { useDispatch } from "react-redux";
 import { login } from "../feature/authSlice";
 import axios from "axios";
@@ -9,25 +9,26 @@ const LogIn = () => {
 
   const dispatch = useDispatch();
 
-  const handleLogIn = (email,password)=>{
+  const handleLogIn =async (email,password)=>{
 
     try{
-      axios
+    const response = await axios
         .post("http://localhost:5000/user/login", {
           email,
           password,
         })
-        .then((response) => {
-          dispatch(login(response.data))
-          navigate("/dashboard")
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        console.log(response)
+        if (response?.status===201) {
+          message.success("User logged in successfully");
+          dispatch(login(response.data));
+          navigate("/dashboard");
+        }
+       
 
 
 
     }catch(error){
+      message.error(error?.response?.data?.message || "Something went wrong")
       console.log(error)
     }
 

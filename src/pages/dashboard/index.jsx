@@ -25,7 +25,6 @@ const Dashboard = () => {
             <Vehicles category={currentCategory} />
           </Content>
         </Layout>
-        <Footer className="footer">Footer</Footer>
       </Layout>
     );
 }
