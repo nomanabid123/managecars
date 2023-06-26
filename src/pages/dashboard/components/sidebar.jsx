@@ -24,7 +24,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
 
-  //handle popUp 
+  //handle popUp
   const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
   };
@@ -47,7 +47,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     }
   };
 
-  //handle delete category 
+  //handle delete category
   const deleteCategoryFromDb = async () => {
     if (!categoryId) return message.error("Please select a category");
     try {
@@ -75,7 +75,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     }
   };
 
-  //items for menu 
+  //items for menu
   const items = [
     {
       label: "Categories",
@@ -90,7 +90,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
       const res = await getCategories();
       if (res.status === 200) {
         const data = res.data;
-        
+
         //push categories to menu items
         data.data.map((category) => {
           items[0].children.push({
