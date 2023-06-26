@@ -4,6 +4,7 @@ import LoggedIn from './loggedIn';
 import LogIn from '../components/login';
 import SignUp from '../components/signup';
 import Dashboard from '../pages/dashboard';
+import PrivateRoute from './privateRoute';
 
 const RouteConfig = () => {
     return ( 
@@ -12,7 +13,7 @@ const RouteConfig = () => {
                 <Route path="/" element={<LoggedIn Component={LogIn}/>} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/dashboard" element={
-                    <Dashboard />
+                   <PrivateRoute Component={Dashboard} />
                 } />
             </Routes>
 

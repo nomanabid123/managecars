@@ -1,14 +1,12 @@
 import React,{useEffect,useState} from 'react'
 import {Button, Table,Modal, message} from 'antd'
-import {getCars,getCategories,deleteCar} from "../../../services/api"
+import {getCars,deleteCar} from "../../../services/api"
 import EditCar from './editCar'
+import { PlusOutlined } from '@ant-design/icons'
 const Vehicles = ({category=null}) => {
     const [cars,setCars] = useState([])
     const [selectedCar,setSelectedCar] = useState(null)
-    const [categories,setCategories] = useState([])
     const [isModalVisible, setIsModalVisible] = useState(false);
-
-
 
 
 
@@ -21,17 +19,7 @@ const Vehicles = ({category=null}) => {
         setIsModalVisible(false);
     };
 
-    const getCategoriesFromDb = async ()=>{
-        try{
-            const res = await getCategories()
-            const data = res.data
-            setCategories(data?.data)
-        }catch(err){
-            console.log(err)
-        }
 
-
-    }
 
 
     const getCarsFromDb = async (category)=>{
@@ -64,9 +52,7 @@ const Vehicles = ({category=null}) => {
         }
     }, [category])
 
-    useEffect(() => {
-        getCategoriesFromDb()
-    }, [])
+   
 
 
 
@@ -114,12 +100,13 @@ const Vehicles = ({category=null}) => {
     return (
       <>
         <Button
+         className='add_car_button'
           type="primary"
           onClick={() => {
             setIsModalVisible(true);
           }}
-        >
-          Add Car
+          icon={<PlusOutlined/>}
+        >Car
         </Button>
         <Table dataSource={cars} columns={columns} />
         <Modal
@@ -129,7 +116,7 @@ const Vehicles = ({category=null}) => {
           onCancel={handleCancel}
           footer={false}
         >
-          <EditCar setSelectedCar={setSelectedCar} selectedCar={selectedCar} handleOk={handleOk} categories={categories} />
+          <EditCar setSelectedCar={setSelectedCar} selectedCar={selectedCar} handleOk={handleOk} />
         </Modal>
       </>
     );

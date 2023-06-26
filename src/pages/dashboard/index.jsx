@@ -1,9 +1,8 @@
 
-import React,{useEffect,useState} from 'react'
+import React,{useState} from 'react'
 import {Layout}  from 'antd'
 import SideBar from './components/sidebar';
 import Vehicles from './components/vehicles';
-import { getCategories } from '../../services/api';
 const {Header, Content, Footer,Sider} = Layout;
 
 

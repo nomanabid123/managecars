@@ -1,8 +1,9 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import {Form,Input,Select,Button,message} from 'antd'
-import { createCar,updateCar } from '../../../services/api';
+import { createCar,updateCar,getCategories } from '../../../services/api';
 
-const EditCar = ({ categories, handleOk, selectedCar, setSelectedCar }) => {
+const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
+  const [categories, setCategories] = useState([]);
   const createNewCar = async (values) => {
     try {
       const res = await createCar(values);
@@ -13,7 +14,16 @@ const EditCar = ({ categories, handleOk, selectedCar, setSelectedCar }) => {
       console.log(err);
     }
   };
-
+  
+      const getCategoriesFromDb = async () => {
+        try {
+          const res = await getCategories();
+          const data = res.data;
+          setCategories(data?.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
   const updateExistingCar = async (values) => {
     try {
       const res = await updateCar(values);
@@ -42,11 +52,14 @@ const EditCar = ({ categories, handleOk, selectedCar, setSelectedCar }) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  console.log(selectedCar);
+  
+   useEffect(() => {
+     getCategoriesFromDb();
+   }, []);
 
   return (
     <Form
-      name="basic"
+      name="Manage Car"
       labelCol={{
         span: 8,
       }}

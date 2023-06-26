@@ -44,7 +44,7 @@ const updateCategory = async (id, name) => {
 }
 
 const deleteCategory = async (id) => {
-    const response = await authApi.delete("/categories/delete", {_id: id});
+    const response = await authApi.delete("/categories/delete", {params: {_id: id}});
     return response;
 }
 

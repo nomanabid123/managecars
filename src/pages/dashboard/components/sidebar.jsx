@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Menu, Popover, Input, message,Row,Col, Space } from "antd";
-import { getCategories, createCategory } from "../../../services/api";
+import { getCategories, createCategory,deleteCategory,updateCategory } from "../../../services/api";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 
 const SideBar = ({ currentCategory, setCurrentCategory }) => {
   const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState(null);
   const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
+  };
+
+  const handleEditChange = (newEdit) => {
+    setEdit(newEdit);
   };
 
   const createNewCategory = async (values) => {
@@ -21,6 +28,34 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
       console.log(err);
     }
   };
+
+  const deleteCategoryFromDb = async () => {
+  if(!categoryId) return message.error("Please select a category");
+    try {
+      const res = await deleteCategory(categoryId);
+      if (res.status === 200) {
+        message.success("Category deleted successfully");
+        getCategoriesFromDb();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updateCategoryFromDb = async (values) => {
+    if(!categoryId) return message.error("Please select a category");
+    try {
+      const res = await updateCategory(categoryId,values?.name);
+      if (res.status === 200) {
+        message.success("Category updated successfully");
+        getCategoriesFromDb();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
 
   const items = [
     {
@@ -56,6 +91,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
 
   const handleClick = (e) => {
     setCurrentCategory(e.key);
+    setCategoryId(e?.item?.props?._id);
   };
 
   const onFinish = (values) => {
@@ -106,6 +142,54 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     );
   };
 
+  const contentsEdit = () => {
+    if(!categoryId) return message.error("Please select a category");
+      return (
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          style={{
+            maxWidth: 600,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={updateCategoryFromDb}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "please enter category name!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Update
+            </Button>
+          </Form.Item>
+        </Form>
+      );
+
+
+  }
+
+
   return (
     <>
       <Row>
@@ -113,7 +197,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
           <Col span={4}>
             <Popover
               content={contents}
-              title="Title"
+              title="Add New Category"
               trigger="click"
               open={open}
               onOpenChange={handleOpenChange}
@@ -121,29 +205,37 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
               <Button
                 className="category-btn"
                 type="primary"
-                style={{ marginBottom: 10 }}
-              >
-                Add
-              </Button>
+                style={{ marginBottom: 10,marginLeft:20 }}
+                icon={<PlusOutlined />}
+              />
+              
             </Popover>
           </Col>
           <Col span={4}>
             <Button
               className="category-btn"
               type="primary"
+              danger
               style={{ marginBottom: 10 }}
-            >
-              Delete
-            </Button>
+              onClick={deleteCategoryFromDb}
+              icon={<DeleteOutlined />}
+            />
           </Col>
           <Col span={4}>
-            <Button
-              className="category-btn"
-              type="primary"
-              style={{ marginBottom: 10 }}
+            <Popover
+              content={contentsEdit}
+              title="Upadte Selected Category"
+              trigger="click"
+              open={edit}
+              onOpenChange={handleEditChange}
             >
-              Edit
-            </Button>
+              <Button
+                className="category-btn"
+                type="primary"
+                style={{ marginBottom: 10 }}
+                icon={<EditOutlined />}
+              />
+            </Popover>
           </Col>
         </Space>
       </Row>
