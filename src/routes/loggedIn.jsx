@@ -1,6 +1,6 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 //check if user is logged in or not
 const LoggedIn = ({ Component }) => {
   const { isAuth } = useSelector((state) => state.auth);

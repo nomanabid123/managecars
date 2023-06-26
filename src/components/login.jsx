@@ -1,9 +1,9 @@
-import React from "react";
-import { Form, Button, Input, message } from "antd";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { authApi } from "../services/api";
-import { login } from "../feature/authSlice";
+import React from 'react';
+import { Form, Button, Input, message } from 'antd';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { authApi } from '../services/api';
+import { login } from '../feature/authSlice';
 const LogIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -11,18 +11,18 @@ const LogIn = () => {
   //handle login api call
   const handleLogIn = async (email, password) => {
     try {
-      const response = await authApi.post("/user/login", {
+      const response = await authApi.post('/user/login', {
         email,
         password,
       });
       //if login is successful
       if (response?.status === 201) {
-        message.success("User logged in successfully");
+        message.success('User logged in successfully');
         dispatch(login(response.data));
-        navigate("/dashboard");
+        navigate('/dashboard');
       }
     } catch (error) {
-      message.error(error?.response?.data?.message || "Something went wrong");
+      message.error(error?.response?.data?.message || 'Something went wrong');
       console.log(error);
     }
   };
@@ -34,7 +34,7 @@ const LogIn = () => {
 
   //handle form submit failure
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   return (
@@ -66,8 +66,8 @@ const LogIn = () => {
           rules={[
             {
               required: true,
-              type: "email",
-              message: "Please input your email",
+              type: 'email',
+              message: 'Please input your email',
             },
           ]}
         >
@@ -81,7 +81,7 @@ const LogIn = () => {
           rules={[
             {
               required: true,
-              message: "Please input your password",
+              message: 'Please input your password',
             },
           ]}
         >
@@ -102,7 +102,7 @@ const LogIn = () => {
             type="link"
             htmlType="button"
             onClick={() => {
-              navigate("/signup");
+              navigate('/signup');
             }}
           >
             Sign Up

@@ -1,24 +1,24 @@
-import React from "react";
-import { Form, Button, Input, message } from "antd";
-import { useNavigate } from "react-router-dom";
-import { authApi } from "../services/api";
+import React from 'react';
+import { Form, Button, Input, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { authApi } from '../services/api';
 const SignUp = () => {
   const navigate = useNavigate();
 
   //handle signup api call
   const handleSignUp = async (name, email) => {
     try {
-      const res = await authApi.post("/user/signup", {
+      const res = await authApi.post('/user/signup', {
         name,
         email,
       });
 
       if (res.status === 201) {
-        message.success("User created successfully");
-        navigate("/");
+        message.success('User created successfully');
+        navigate('/');
       }
     } catch (err) {
-      message.error(err?.response?.data?.message || "Something went wrong");
+      message.error(err?.response?.data?.message || 'Something went wrong');
       console.log(err);
     }
   };
@@ -30,7 +30,7 @@ const SignUp = () => {
 
   //handle form submit failure
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   return (
@@ -55,20 +55,20 @@ const SignUp = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-      {/* Username field */}
+        {/* Username field */}
         <Form.Item
           label="Name"
           name="name"
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: 'Please input your username!',
             },
           ]}
         >
           <Input />
         </Form.Item>
-        
+
         {/* Email field */}
         <Form.Item
           label="Email"
@@ -76,8 +76,8 @@ const SignUp = () => {
           rules={[
             {
               required: true,
-              type: "email",
-              message: "Please input your email",
+              type: 'email',
+              message: 'Please input your email',
             },
           ]}
         >
@@ -89,7 +89,7 @@ const SignUp = () => {
             span: 16,
           }}
         >
-        {/* Submit button */}
+          {/* Submit button */}
           <Button type="primary" htmlType="submit">
             Sign Up
           </Button>
@@ -97,7 +97,7 @@ const SignUp = () => {
             type="link"
             htmlType="button"
             onClick={() => {
-              navigate("/");
+              navigate('/');
             }}
           >
             Log In

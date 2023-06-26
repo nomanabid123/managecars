@@ -1,22 +1,7 @@
-import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Form,
-  Menu,
-  Popover,
-  Input,
-  message,
-  Row,
-  Col,
-  Space,
-} from "antd";
-import {
-  getCategories,
-  createCategory,
-  deleteCategory,
-  updateCategory,
-} from "../../../services/api";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Menu, Popover, Input, message, Row, Col, Space } from 'antd';
+import { getCategories, createCategory, deleteCategory, updateCategory } from '../../../services/api';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 
 const SideBar = ({ currentCategory, setCurrentCategory }) => {
   const [categories, setCategories] = useState([]);
@@ -39,7 +24,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     try {
       const res = await createCategory(values);
       if (res.status === 200) {
-        message.success("Category created successfully");
+        message.success('Category created successfully');
         getCategoriesFromDb();
       }
     } catch (err) {
@@ -49,11 +34,11 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
 
   //handle delete category
   const deleteCategoryFromDb = async () => {
-    if (!categoryId) return message.error("Please select a category");
+    if (!categoryId) return message.error('Please select a category');
     try {
       const res = await deleteCategory(categoryId);
       if (res.status === 200) {
-        message.success("Category deleted successfully");
+        message.success('Category deleted successfully');
         getCategoriesFromDb();
       }
     } catch (err) {
@@ -63,11 +48,11 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
 
   //handle update category
   const updateCategoryFromDb = async (values) => {
-    if (!categoryId) return message.error("Please select a category");
+    if (!categoryId) return message.error('Please select a category');
     try {
       const res = await updateCategory(categoryId, values?.name);
       if (res.status === 200) {
-        message.success("Category updated successfully");
+        message.success('Category updated successfully');
         getCategoriesFromDb();
       }
     } catch (err) {
@@ -78,8 +63,8 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
   //items for menu
   const items = [
     {
-      label: "Categories",
-      key: "SubMenu",
+      label: 'Categories',
+      key: 'SubMenu',
       children: [],
     },
   ];
@@ -146,7 +131,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
           rules={[
             {
               required: true,
-              message: "please enter category name!",
+              message: 'please enter category name!',
             },
           ]}
         >
@@ -170,7 +155,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
 
   //edit category form
   const contentsEdit = () => {
-    if (!categoryId) return message.error("Please select a category");
+    if (!categoryId) return message.error('Please select a category');
     return (
       <Form
         name="basic"
@@ -195,7 +180,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
           rules={[
             {
               required: true,
-              message: "please enter category name!",
+              message: 'please enter category name!',
             },
           ]}
         >
@@ -258,23 +243,13 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
               open={edit}
               onOpenChange={handleEditChange}
             >
-              <Button
-                className="category-btn"
-                type="primary"
-                style={{ marginBottom: 10 }}
-                icon={<EditOutlined />}
-              />
+              <Button className="category-btn" type="primary" style={{ marginBottom: 10 }} icon={<EditOutlined />} />
             </Popover>
           </Col>
         </Space>
       </Row>
       {/* Menu */}
-      <Menu
-        items={categories}
-        onClick={handleClick}
-        selectedKeys={[currentCategory]}
-        mode="horizontal"
-      />
+      <Menu items={categories} onClick={handleClick} selectedKeys={[currentCategory]} mode="horizontal" />
     </>
   );
 };

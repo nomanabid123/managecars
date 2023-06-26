@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, Table, Modal, message } from "antd";
-import { getCars, deleteCar } from "../../../services/api";
-import EditCar from "./EditCar";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from 'react';
+import { Button, Table, Modal, message } from 'antd';
+import { getCars, deleteCar } from '../../../services/api';
+import EditCar from './EditCar';
+import { PlusOutlined } from '@ant-design/icons';
 const Vehicles = ({ category = null }) => {
   const [cars, setCars] = useState([]);
   const [selectedCar, setSelectedCar] = useState(null);
@@ -19,7 +19,7 @@ const Vehicles = ({ category = null }) => {
     setIsModalVisible(false);
   };
 
-    //get cars from db
+  //get cars from db
   const getCarsFromDb = async (category) => {
     try {
       const res = await getCars(category);
@@ -30,13 +30,13 @@ const Vehicles = ({ category = null }) => {
     }
   };
 
-    //delete car from db
+  //delete car from db
   const deleteCarFromDb = async (id) => {
     try {
       const res = await deleteCar(id);
       if (res.status === 200) {
         getCarsFromDb(category);
-        message.success("Car deleted successfully");
+        message.success('Car deleted successfully');
       }
     } catch (err) {
       console.log(err);
@@ -50,32 +50,32 @@ const Vehicles = ({ category = null }) => {
     }
   }, [category]);
 
-    //table columns
+  //table columns
   const columns = [
     {
-      title: "Category",
-      dataIndex: "category",
+      title: 'Category',
+      dataIndex: 'category',
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      title: 'Name',
+      dataIndex: 'name',
       sorter: (a, b) => a.name.length - b.name.length,
     },
     {
-      title: "Model",
-      dataIndex: "model",
+      title: 'Model',
+      dataIndex: 'model',
       sorter: (a, b) => a.model - b.model,
     },
     {
-      title: "Color",
-      dataIndex: "color",
+      title: 'Color',
+      dataIndex: 'color',
     },
     {
-      title: "Make",
-      dataIndex: "make",
+      title: 'Make',
+      dataIndex: 'make',
     },
     {
-      key: "action_edit",
+      key: 'action_edit',
       render: (_, data) => (
         <Button
           type="primary"
@@ -89,7 +89,7 @@ const Vehicles = ({ category = null }) => {
       ),
     },
     {
-      key: "action_delete",
+      key: 'action_delete',
       render: (_, data) => (
         <Button
           type="danger"
@@ -105,7 +105,7 @@ const Vehicles = ({ category = null }) => {
 
   return (
     <>
-    {/* Add car button */}
+      {/* Add car button */}
       <Button
         className="add_car_button"
         type="primary"
@@ -120,18 +120,8 @@ const Vehicles = ({ category = null }) => {
       {/* Cars table */}
       <Table dataSource={cars} columns={columns} pagination={true} />
       {/* Modal */}
-      <Modal
-        title="Manage Car"
-        open={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={false}
-      >
-        <EditCar
-          setSelectedCar={setSelectedCar}
-          selectedCar={selectedCar}
-          handleOk={handleOk}
-        />
+      <Modal title="Manage Car" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={false}>
+        <EditCar setSelectedCar={setSelectedCar} selectedCar={selectedCar} handleOk={handleOk} />
       </Modal>
     </>
   );

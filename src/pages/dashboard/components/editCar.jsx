@@ -45,7 +45,7 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
   //handle form submit
   const onFinish = (values) => {
     if (selectedCar) {
-      values._id = selectedCar._id;
+      values._id = selectedCar?._id;
       updateExistingCar(values);
       setSelectedCar(null);
       form.resetFields(); // Reset form fields
@@ -111,7 +111,7 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
       <Form.Item label="Category" name="category">
         <Select>
           {categories.map((category) => (
-            <Select.Option value={category.name}>{category.name}</Select.Option>
+            <Select.Option key={category?._id} value={category.name}>{category.name}</Select.Option>
           ))}
         </Select>
       </Form.Item>
