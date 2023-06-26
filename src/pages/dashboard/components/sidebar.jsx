@@ -24,14 +24,17 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
 
+  //handle popUp 
   const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
   };
 
+  //handle edit
   const handleEditChange = (newEdit) => {
     setEdit(newEdit);
   };
 
+  //handle create category
   const createNewCategory = async (values) => {
     try {
       const res = await createCategory(values);
@@ -44,6 +47,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     }
   };
 
+  //handle delete category 
   const deleteCategoryFromDb = async () => {
     if (!categoryId) return message.error("Please select a category");
     try {
@@ -57,6 +61,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     }
   };
 
+  //handle update category
   const updateCategoryFromDb = async (values) => {
     if (!categoryId) return message.error("Please select a category");
     try {
@@ -70,6 +75,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     }
   };
 
+  //items for menu 
   const items = [
     {
       label: "Categories",
@@ -77,11 +83,15 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
       children: [],
     },
   ];
+
+  //get categories from db
   const getCategoriesFromDb = async () => {
     try {
       const res = await getCategories();
       if (res.status === 200) {
         const data = res.data;
+        
+        //push categories to menu items
         data.data.map((category) => {
           items[0].children.push({
             label: category.name,
@@ -100,11 +110,13 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     getCategoriesFromDb();
   }, []);
 
+  //handle menu item Click
   const handleClick = (e) => {
     setCurrentCategory(e.key);
     setCategoryId(e?.item?.props?._id);
   };
 
+  //handle form submit
   const onFinish = (values) => {
     createNewCategory(values);
   };
@@ -128,6 +140,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
         onFinish={onFinish}
         autoComplete="off"
       >
+        {/* Category name input */}
         <Form.Item
           name="name"
           rules={[
@@ -139,6 +152,8 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
         >
           <Input />
         </Form.Item>
+
+        {/* Submit button */}
         <Form.Item
           wrapperCol={{
             offset: 8,
@@ -153,6 +168,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
     );
   };
 
+  //edit category form
   const contentsEdit = () => {
     if (!categoryId) return message.error("Please select a category");
     return (
@@ -173,6 +189,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
         onFinish={updateCategoryFromDb}
         autoComplete="off"
       >
+        {/* Category name input */}
         <Form.Item
           name="name"
           rules={[
@@ -184,6 +201,8 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
         >
           <Input />
         </Form.Item>
+
+        {/* Submit button */}
         <Form.Item
           wrapperCol={{
             offset: 8,
@@ -203,6 +222,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
       <Row>
         <Space direction="horizontal">
           <Col span={4}>
+            {/* Add new category button */}
             <Popover
               content={contents}
               title="Add New Category"
@@ -218,6 +238,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
               />
             </Popover>
           </Col>
+          {/* Delete category button */}
           <Col span={4}>
             <Button
               className="category-btn"
@@ -228,6 +249,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
               icon={<DeleteOutlined />}
             />
           </Col>
+          {/* Edit category button */}
           <Col span={4}>
             <Popover
               content={contentsEdit}
@@ -246,7 +268,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
           </Col>
         </Space>
       </Row>
-
+      {/* Menu */}
       <Menu
         items={categories}
         onClick={handleClick}

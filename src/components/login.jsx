@@ -1,20 +1,21 @@
 import React from "react";
 import { Form, Button, Input, message } from "antd";
 import { useDispatch } from "react-redux";
-import { login } from "../feature/authSlice";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { authApi } from "../services/api";
+import { login } from "../feature/authSlice";
 const LogIn = () => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
+  //handle login api call
   const handleLogIn = async (email, password) => {
     try {
-      const response = await axios.post("http://localhost:5000/user/login", {
+      const response = await authApi.post("/user/login", {
         email,
         password,
       });
+      //if login is successful
       if (response?.status === 201) {
         message.success("User logged in successfully");
         dispatch(login(response.data));
@@ -26,10 +27,12 @@ const LogIn = () => {
     }
   };
 
+  //handle form submit
   const onFinish = (values) => {
     handleLogIn(values.email, values.password);
   };
 
+  //handle form submit failure
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -56,6 +59,7 @@ const LogIn = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+        {/* Email input field*/}
         <Form.Item
           label="Email"
           name="email"
@@ -69,6 +73,8 @@ const LogIn = () => {
         >
           <Input />
         </Form.Item>
+
+        {/* Password input field*/}
         <Form.Item
           label="Password"
           name="password"
@@ -82,6 +88,7 @@ const LogIn = () => {
           <Input.Password />
         </Form.Item>
 
+        {/* Submit button*/}
         <Form.Item
           wrapperCol={{
             offset: 8,
@@ -89,7 +96,7 @@ const LogIn = () => {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Submit
+            Log In
           </Button>
           <Button
             type="link"

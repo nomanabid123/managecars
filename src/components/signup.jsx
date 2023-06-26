@@ -1,12 +1,14 @@
 import React from "react";
-import axios from "axios";
 import { Form, Button, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { authApi } from "../services/api";
 const SignUp = () => {
   const navigate = useNavigate();
+
+  //handle signup api call
   const handleSignUp = async (name, email) => {
     try {
-      const res = await axios.post("http://localhost:5000/user/signup", {
+      const res = await authApi.post("/user/signup", {
         name,
         email,
       });
@@ -21,10 +23,12 @@ const SignUp = () => {
     }
   };
 
+  //handle form submit
   const onFinish = (values) => {
     handleSignUp(values.name, values.email);
   };
 
+  //handle form submit failure
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -51,6 +55,7 @@ const SignUp = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+      {/* Username field */}
         <Form.Item
           label="Name"
           name="name"
@@ -63,7 +68,8 @@ const SignUp = () => {
         >
           <Input />
         </Form.Item>
-
+        
+        {/* Email field */}
         <Form.Item
           label="Email"
           name="email"
@@ -83,8 +89,9 @@ const SignUp = () => {
             span: 16,
           }}
         >
+        {/* Submit button */}
           <Button type="primary" htmlType="submit">
-            Submit
+            Sign Up
           </Button>
           <Button
             type="link"
@@ -93,7 +100,7 @@ const SignUp = () => {
               navigate("/");
             }}
           >
-            Sign Up
+            Log In
           </Button>
         </Form.Item>
       </Form>

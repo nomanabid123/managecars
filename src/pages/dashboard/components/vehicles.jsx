@@ -8,15 +8,18 @@ const Vehicles = ({ category = null }) => {
   const [selectedCar, setSelectedCar] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  //handle modal visibility
   const handleOk = () => {
     setIsModalVisible(false);
     getCarsFromDb(category);
   };
 
+  //handle modal visibility
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
+    //get cars from db
   const getCarsFromDb = async (category) => {
     try {
       const res = await getCars(category);
@@ -27,6 +30,7 @@ const Vehicles = ({ category = null }) => {
     }
   };
 
+    //delete car from db
   const deleteCarFromDb = async (id) => {
     try {
       const res = await deleteCar(id);
@@ -39,12 +43,14 @@ const Vehicles = ({ category = null }) => {
     }
   };
 
+  //get cars from db on component mount
   useEffect(() => {
     if (category) {
       getCarsFromDb(category);
     }
   }, [category]);
 
+    //table columns
   const columns = [
     {
       title: "Category",
@@ -99,6 +105,7 @@ const Vehicles = ({ category = null }) => {
 
   return (
     <>
+    {/* Add car button */}
       <Button
         className="add_car_button"
         type="primary"
@@ -110,7 +117,9 @@ const Vehicles = ({ category = null }) => {
       >
         Car
       </Button>
+      {/* Cars table */}
       <Table dataSource={cars} columns={columns} />
+      {/* Modal */}
       <Modal
         title="Manage Car"
         open={isModalVisible}

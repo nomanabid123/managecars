@@ -6,6 +6,8 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
   console.log(selectedCar);
   const [form] = Form.useForm();
   const [categories, setCategories] = useState([]);
+
+  //create a new car
   const createNewCar = async (values) => {
     try {
       const res = await createCar(values);
@@ -17,6 +19,7 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
     }
   };
 
+  //get categories from db
   const getCategoriesFromDb = async () => {
     try {
       const res = await getCategories();
@@ -26,6 +29,8 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
       console.log(err);
     }
   };
+
+  //update existing car
   const updateExistingCar = async (values) => {
     try {
       const res = await updateCar(values);
@@ -37,12 +42,13 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
     }
   };
 
+  //handle form submit
   const onFinish = (values) => {
     if (selectedCar) {
       values._id = selectedCar._id;
       updateExistingCar(values);
       setSelectedCar(null);
-      form.resetFields();
+      form.resetFields(); // Reset form fields
       handleOk();
       return;
     }
@@ -51,8 +57,9 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
     handleOk();
   };
 
+  //handle form submit failure
   const onFinishFailed = (errorInfo) => {
-    form.resetFields();
+    form.resetFields(); // Reset form fields
     console.log("Failed:", errorInfo);
   };
 
@@ -80,19 +87,27 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
+      {/* Name field */}
       <Form.Item label="Name" name="name">
         <Input />
       </Form.Item>
 
+      {/* Color field */}
       <Form.Item label="Color" name="color">
         <Input />
       </Form.Item>
+
+      {/* Model field */}
       <Form.Item label="Model" name="model">
         <Input />
       </Form.Item>
+
+      {/* Make field */}
       <Form.Item label="Make" name="make">
         <Input />
       </Form.Item>
+
+      {/* Category field */}
       <Form.Item label="Category" name="category">
         <Select>
           {categories.map((category) => (
@@ -101,6 +116,7 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
         </Select>
       </Form.Item>
 
+      {/*Submit button */}
       <Form.Item
         wrapperCol={{
           offset: 8,
