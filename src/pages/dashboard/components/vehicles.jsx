@@ -118,7 +118,7 @@ const Vehicles = ({ category = null }) => {
         Car
       </Button>
       {/* Cars table */}
-      <Table dataSource={cars} columns={columns} />
+      <Table dataSource={cars} columns={columns} pagination={true} />
       {/* Modal */}
       <Modal
         title="Manage Car"
