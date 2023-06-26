@@ -9,35 +9,25 @@ const LogIn = () => {
 
   const dispatch = useDispatch();
 
-  const handleLogIn =async (email,password)=>{
-
-    try{
-    const response = await axios
-        .post("http://localhost:5000/user/login", {
-          email,
-          password,
-        })
-        console.log(response)
-        if (response?.status===201) {
-          message.success("User logged in successfully");
-          dispatch(login(response.data));
-          navigate("/dashboard");
-        }
-       
-
-
-
-    }catch(error){
-      message.error(error?.response?.data?.message || "Something went wrong")
-      console.log(error)
+  const handleLogIn = async (email, password) => {
+    try {
+      const response = await axios.post("http://localhost:5000/user/login", {
+        email,
+        password,
+      });
+      if (response?.status === 201) {
+        message.success("User logged in successfully");
+        dispatch(login(response.data));
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      message.error(error?.response?.data?.message || "Something went wrong");
+      console.log(error);
     }
-
-
-
-  }
+  };
 
   const onFinish = (values) => {
-    handleLogIn(values.email,values.password)
+    handleLogIn(values.email, values.password);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -101,11 +91,13 @@ const LogIn = () => {
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-          <Button type="link" htmlType="button" onClick={
-            ()=>{
-              navigate("/signup")
-            }
-          }>
+          <Button
+            type="link"
+            htmlType="button"
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
             Sign Up
           </Button>
         </Form.Item>

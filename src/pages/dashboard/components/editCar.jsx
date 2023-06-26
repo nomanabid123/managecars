@@ -1,8 +1,10 @@
-import React,{useEffect,useState} from 'react'
-import {Form,Input,Select,Button,message} from 'antd'
-import { createCar,updateCar,getCategories } from '../../../services/api';
+import React, { useEffect, useState } from "react";
+import { Form, Input, Select, Button, message } from "antd";
+import { createCar, updateCar, getCategories } from "../../../services/api";
 
 const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
+  console.log(selectedCar);
+  const [form] = Form.useForm();
   const [categories, setCategories] = useState([]);
   const createNewCar = async (values) => {
     try {
@@ -14,16 +16,16 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
       console.log(err);
     }
   };
-  
-      const getCategoriesFromDb = async () => {
-        try {
-          const res = await getCategories();
-          const data = res.data;
-          setCategories(data?.data);
-        } catch (err) {
-          console.log(err);
-        }
-      };
+
+  const getCategoriesFromDb = async () => {
+    try {
+      const res = await getCategories();
+      const data = res.data;
+      setCategories(data?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const updateExistingCar = async (values) => {
     try {
       const res = await updateCar(values);
@@ -36,29 +38,34 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
   };
 
   const onFinish = (values) => {
-
     if (selectedCar) {
-        values._id = selectedCar._id;
-        updateExistingCar(values);
-        setSelectedCar(null);
-        handleOk();
-        return;
+      values._id = selectedCar._id;
+      updateExistingCar(values);
+      setSelectedCar(null);
+      form.resetFields();
+      handleOk();
+      return;
     }
     createNewCar(values);
-    Form.resetFields();
+    form.resetFields();
     handleOk();
   };
 
   const onFinishFailed = (errorInfo) => {
+    form.resetFields();
     console.log("Failed:", errorInfo);
   };
-  
-   useEffect(() => {
-     getCategoriesFromDb();
-   }, []);
+
+  useEffect(() => {
+    getCategoriesFromDb();
+    if (selectedCar) {
+      form.setFieldsValue(selectedCar); // Set initial values
+    }
+  }, [selectedCar, form]);
 
   return (
     <Form
+      form={form}
       name="Manage Car"
       labelCol={{
         span: 8,
@@ -69,43 +76,25 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
       style={{
         maxWidth: 600,
       }}
-      initialValues={{
-        remember: true,
-      }}
-
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <Form.Item  label="Name" name="name">
-        <Input defaultValue={
-            selectedCar?.name
-        } />
+      <Form.Item label="Name" name="name">
+        <Input />
       </Form.Item>
 
       <Form.Item label="Color" name="color">
-        <Input
-            defaultValue={
-                selectedCar?.color
-            }
-        />
+        <Input />
       </Form.Item>
       <Form.Item label="Model" name="model">
-        <Input defaultValue={
-            selectedCar?.model
-        } />
+        <Input />
       </Form.Item>
       <Form.Item label="Make" name="make">
-        <Input
-            defaultValue={
-                selectedCar?.make
-            }
-        />
+        <Input />
       </Form.Item>
       <Form.Item label="Category" name="category">
-        <Select defaultValue={
-            selectedCar?.category
-        } >
+        <Select>
           {categories.map((category) => (
             <Select.Option value={category.name}>{category.name}</Select.Option>
           ))}
@@ -125,5 +114,5 @@ const EditCar = ({ handleOk, selectedCar, setSelectedCar }) => {
     </Form>
   );
 };
- 
+
 export default EditCar;

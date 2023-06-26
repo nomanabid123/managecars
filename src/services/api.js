@@ -44,12 +44,18 @@ const updateCategory = async (id, name) => {
 }
 
 const deleteCategory = async (id) => {
-    const response = await authApi.delete("/categories/delete", {params: {_id: id}});
+    const response = await authApi.delete("/categories/delete", {
+        params: {
+            _id: id
+        }
+    });
     return response;
 }
 
 const getCars = async (category) => {
-    const response = await authApi.get("/cars/get", {params: {category}});
+    const response = await authApi.get("/cars/get", {params: {
+            category
+        }});
     return response;
 }
 
@@ -64,7 +70,11 @@ const updateCar = async (car) => {
 }
 
 const deleteCar = async (id) => {
-    const response = await authApi.delete("/cars/delete",{params: {_id: id}});
+    const response = await authApi.delete("/cars/delete", {
+        params: {
+            _id: id
+        }
+    });
     return response;
 }
 

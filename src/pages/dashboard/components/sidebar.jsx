@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, Menu, Popover, Input, message,Row,Col, Space } from "antd";
-import { getCategories, createCategory,deleteCategory,updateCategory } from "../../../services/api";
+import {
+  Button,
+  Form,
+  Menu,
+  Popover,
+  Input,
+  message,
+  Row,
+  Col,
+  Space,
+} from "antd";
+import {
+  getCategories,
+  createCategory,
+  deleteCategory,
+  updateCategory,
+} from "../../../services/api";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 
 const SideBar = ({ currentCategory, setCurrentCategory }) => {
@@ -30,7 +45,7 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
   };
 
   const deleteCategoryFromDb = async () => {
-  if(!categoryId) return message.error("Please select a category");
+    if (!categoryId) return message.error("Please select a category");
     try {
       const res = await deleteCategory(categoryId);
       if (res.status === 200) {
@@ -38,24 +53,22 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
         getCategoriesFromDb();
       }
     } catch (err) {
-      console.log(err);
+      message.error(err?.response?.data?.message);
     }
   };
 
   const updateCategoryFromDb = async (values) => {
-    if(!categoryId) return message.error("Please select a category");
+    if (!categoryId) return message.error("Please select a category");
     try {
-      const res = await updateCategory(categoryId,values?.name);
+      const res = await updateCategory(categoryId, values?.name);
       if (res.status === 200) {
         message.success("Category updated successfully");
         getCategoriesFromDb();
       }
     } catch (err) {
-      console.log(err);
+      message.error(err?.response?.data?.message);
     }
   };
-
-
 
   const items = [
     {
@@ -74,18 +87,16 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
             label: category.name,
             key: category.name,
             _id: category._id,
-            
           });
         });
         setCategories(items);
       }
     } catch (err) {
-      console.log(err);
+      message.error(err?.response?.data?.message);
     }
   };
 
   useEffect(() => {
-    
     getCategoriesFromDb();
   }, []);
 
@@ -143,52 +154,49 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
   };
 
   const contentsEdit = () => {
-    if(!categoryId) return message.error("Please select a category");
-      return (
-        <Form
-          name="basic"
-          labelCol={{
-            span: 8,
-          }}
+    if (!categoryId) return message.error("Please select a category");
+    return (
+      <Form
+        name="basic"
+        labelCol={{
+          span: 8,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
+        style={{
+          maxWidth: 600,
+        }}
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={updateCategoryFromDb}
+        autoComplete="off"
+      >
+        <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: "please enter category name!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
           wrapperCol={{
+            offset: 8,
             span: 16,
           }}
-          style={{
-            maxWidth: 600,
-          }}
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={updateCategoryFromDb}
-          autoComplete="off"
         >
-          <Form.Item
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "please enter category name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <Button type="primary" htmlType="submit">
-              Update
-            </Button>
-          </Form.Item>
-        </Form>
-      );
-
-
-  }
-
+          <Button type="primary" htmlType="submit">
+            Update
+          </Button>
+        </Form.Item>
+      </Form>
+    );
+  };
 
   return (
     <>
@@ -205,10 +213,9 @@ const SideBar = ({ currentCategory, setCurrentCategory }) => {
               <Button
                 className="category-btn"
                 type="primary"
-                style={{ marginBottom: 10,marginLeft:20 }}
+                style={{ marginBottom: 10, marginLeft: 20 }}
                 icon={<PlusOutlined />}
               />
-              
             </Popover>
           </Col>
           <Col span={4}>
