@@ -1,6 +1,6 @@
 import axios from "axios";
 import {store} from "../app/store"
-const authApi = axios.create({baseURL: "http://localhost:3000"});
+const authApi = axios.create({baseURL: "http://localhost:5000"});
 
 const headers = {
     'Content-Type': 'application/json',

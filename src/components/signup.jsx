@@ -6,16 +6,18 @@ const SignUp = () => {
     const navigate = useNavigate();
     const handleSignUp = async (name,email) => {
       try{
-        const res = await axios.post("http://localhost:3000/user/signup", {
+        const res = await axios.post("http://localhost:5000/user/signup", {
           name,
           email,
         });
         
        if(res.status === 201){
           message.success("User created successfully")
+          navigate("/")
        }
 
       }catch(err){
+        message.error(err?.response?.data?.message || "Something went wrong")
         console.log(err)
       }
 
